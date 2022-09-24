@@ -14,6 +14,14 @@ import java.util.List;
 @Repository
 public interface ExerciseGroupRepository extends BaseEntityRepository<ExerciseGroup> {
 
-    List<ExerciseGroup> findAllByCategoryAndStatusAndUserOrAccess (ExerciseCategory category, EntityStatus status, AppUserImpl user, AccessType access);
+    List<ExerciseGroup> findAllByCategoryAndUserAndStatusOrCategoryAndAccessAndStatus (
+            ExerciseCategory v1,
+            AppUserImpl v2,
+            EntityStatus v3,
+            ExerciseCategory v4,
+            AccessType v5,
+            EntityStatus v6
+    );
+
 
 }

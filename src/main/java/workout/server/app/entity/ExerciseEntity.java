@@ -2,16 +2,15 @@ package workout.server.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import workout.server.app.entity.abstraction.AbstractLocaleEntity;
+import workout.server.app.entity.abstraction.AbstractNamedEntity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class ExerciseEntity extends AbstractLocaleEntity {
+public class ExerciseEntity extends AbstractNamedEntity {
 
     @ManyToOne
     @JoinColumn(nullable = false)

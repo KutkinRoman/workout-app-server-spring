@@ -12,7 +12,8 @@ public abstract class AbstractRemovalService<T extends BaseEntity> extends Abstr
 
     public void deleteByid (String id) {
         T entity = this.createDeletedEntityById (id);
-        getRepository ().save (entity);
+        getRepository ()
+                .save (entity);
     }
 
     public void deleteAllByIds (List<String> ids) {
@@ -20,7 +21,8 @@ public abstract class AbstractRemovalService<T extends BaseEntity> extends Abstr
                 .stream ()
                 .map (this::createDeletedEntityById)
                 .collect (Collectors.toList ());
-        getRepository ().saveAll (entities);
+        getRepository ()
+                .saveAll (entities);
     }
 
     private T createDeletedEntityById (String id) {

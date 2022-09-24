@@ -7,6 +7,7 @@ import workout.server.security.service.UserServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import static workout.server.app.entity.constant.AccessType.PUBLIC;
 
@@ -15,8 +16,15 @@ public abstract class AbstractSynchronizationService<T extends BaseEntity> {
     protected abstract BaseEntityRepository<T> getRepository ();
 
     public List<T> getSyncEntities (LocalDateTime latestDate) {
+
         AppUserImpl user = UserServiceImpl.getCurrentAuthUser ();
+        if (Objects.isNull (latestDate)){
+            return getRepository ()
+                    .findByUserOrAccess
+                            (user, PUBLIC);
+        }
         return getRepository ()
-                .findByUserAndUpdatedAfterOrAccessAndUpdatedAfter (user, latestDate, PUBLIC, latestDate);
+                .findByUserAndUpdatedAfterOrAccessAndUpdatedAfter
+                        (user, latestDate, PUBLIC, latestDate);
     }
 }

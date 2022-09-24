@@ -3,7 +3,6 @@ package workout.server.security.service.abstraction;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import workout.server.security.entity.inter.CustomUserDetails;
 
 import javax.crypto.SecretKey;
@@ -31,6 +30,8 @@ public abstract class AbstractJwtService {
     public abstract String generateJwtAccessToken (CustomUserDetails userDetails);
 
     public abstract String generateJwtRefreshToken (CustomUserDetails userDetails, String tokenId);
+
+    public abstract CustomUserDetails parseUserDetails (String accessToken);
 
     public Date generateCreationDate () {
         return new Date ();

@@ -26,7 +26,8 @@ public class ExerciseEntityService extends AbstractEntityService<ExerciseEntity>
         ExerciseGroup group = groupService.getById (groupId);
         AppUserImpl user = UserServiceImpl.getCurrentAuthUser ();
         return repository
-                .findAllByGroupAndStatusAndUserOrAccess (group, ACTIVE, user, PUBLIC);
+                .findAllByGroupAndUserAndStatusOrGroupAndAccessAndStatus
+                        (group, user, ACTIVE, group, PUBLIC, ACTIVE);
     }
 
     @Override

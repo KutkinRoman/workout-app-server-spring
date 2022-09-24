@@ -1,14 +1,19 @@
 package workout.server.security.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import workout.server.security.entity.AppUserImpl;
 import workout.server.security.entity.inter.CustomUserDetails;
 import workout.server.security.service.abstraction.AbstractJwtService;
 
 import javax.annotation.PostConstruct;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -63,6 +68,19 @@ public class JwtService extends AbstractJwtService {
                 .setExpiration (generateExpirationDateRefreshToken ())
                 .signWith (getSecretKeyAccessToken ())
                 .compact ();
+    }
+
+    @Override
+    public CustomUserDetails parseUserDetails (String accessToken) {
+        final Claims claims = getClaimsFromByAccessToken (accessToken);
+        Long userId = Long.parseLong (claims.getSubject ());
+        String username = ( String ) claims.get ("username");
+        List<String> roleNames = ( List<String> ) claims.get ("roles");
+        Collection<SimpleGrantedAuthority> authorities = roleNames
+                .stream ()
+                .map (SimpleGrantedAuthority::new)
+                .collect (Collectors.toList ());
+        return new AppUserImpl (userId, username, authorities);
     }
 
 

@@ -1,5 +1,6 @@
 package workout.server.app.entity.abstraction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 import workout.server.app.entity.inter.BaseEntity;
 import workout.server.security.entity.AppUserImpl;
@@ -17,10 +18,12 @@ public abstract class AbstractBaseEntity implements BaseEntity, Serializable {
 
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonIgnore
     private LocalDateTime created;
 
     @Column(nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonIgnore
     private LocalDateTime updated;
 
     @Column(nullable = false)
@@ -33,6 +36,7 @@ public abstract class AbstractBaseEntity implements BaseEntity, Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
+    @JsonIgnore
     private AppUserImpl user;
 
     @Override

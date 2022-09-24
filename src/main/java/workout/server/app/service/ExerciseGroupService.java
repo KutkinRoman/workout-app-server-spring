@@ -10,9 +10,7 @@ import workout.server.app.service.abstraction.AbstractEntityService;
 import workout.server.security.entity.AppUserImpl;
 import workout.server.security.service.UserServiceImpl;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static workout.server.app.entity.constant.AccessType.PUBLIC;
 import static workout.server.app.entity.constant.EntityStatus.ACTIVE;
@@ -28,7 +26,8 @@ public class ExerciseGroupService extends AbstractEntityService<ExerciseGroup> {
         ExerciseCategory category = categoryService.getById (categoryId);
         AppUserImpl user = UserServiceImpl.getCurrentAuthUser ();
         return groupRepository
-                .findAllByCategoryAndStatusAndUserOrAccess (category, ACTIVE, user, PUBLIC);
+                .findAllByCategoryAndUserAndStatusOrCategoryAndAccessAndStatus
+                        (category, user, ACTIVE, category, PUBLIC, ACTIVE);
     }
 
     @Override

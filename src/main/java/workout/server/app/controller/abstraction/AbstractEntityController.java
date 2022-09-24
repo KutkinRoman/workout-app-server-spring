@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import workout.server.app.entity.constant.AccessType;
-import workout.server.app.entity.inter.LocaleEntity;
+import workout.server.app.entity.inter.NamedEntity;
 import workout.server.app.handler.AppExceptionHandler;
 import workout.server.app.service.abstraction.AbstractEntityService;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-public abstract class AbstractEntityController<T extends LocaleEntity> extends AppExceptionHandler {
+public abstract class AbstractEntityController<T extends NamedEntity> extends AppExceptionHandler {
 
     protected abstract AbstractEntityService<T> getService ();
 
@@ -30,10 +30,6 @@ public abstract class AbstractEntityController<T extends LocaleEntity> extends A
     public ResponseEntity<?> getSyncEntities (
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime latestDate
     ) {
-        if (Objects.isNull (latestDate)) {
-            return ResponseEntity
-                    .ok (getService ().getAllByCurrentAuthUserOrPublic ());
-        }
         return ResponseEntity
                 .ok (getService ().getSyncEntities (latestDate));
     }

@@ -8,6 +8,9 @@ import workout.server.security.service.UserServiceImpl;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import static workout.server.app.entity.constant.AccessType.PUBLIC;
+import static workout.server.app.entity.constant.EntityStatus.ACTIVE;
+
 public abstract class AbstractEntityService<T extends BaseEntity> extends AbstractSaveService<T> {
 
     public T getById (String id) {
@@ -23,7 +26,8 @@ public abstract class AbstractEntityService<T extends BaseEntity> extends Abstra
 
     public Collection<T> getAllByCurrentAuthUserOrPublic () {
         AppUserImpl user = UserServiceImpl.getCurrentAuthUser ();
-        return getRepository ().findAllByUserOrAccess (user, AccessType.PUBLIC);
+        return getRepository ()
+                .findAllByUserAndStatusOrAccessAndStatus (user, ACTIVE, PUBLIC, ACTIVE);
     }
 
 
